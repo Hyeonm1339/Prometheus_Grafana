@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana-pv
+  namespace: monitoring
+spec:
+  capacity:
+    storage: 5Gi # 사용 가능한 스토리지 크기를 조정하세요
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: grafana-storage
+  hostPath:
+    path: /data/nfs/k8s/prometheus/graBackup
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pvc
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: grafana-storage
+  resources:
+    requests:
+      storage: 5Gi # 사용 가능한 스토리지 크기를 조정하세요
